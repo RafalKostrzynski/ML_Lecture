@@ -20,6 +20,10 @@ print("3x3 matrix 0 to 8:\n", matrix, "\n")
 d3zerosMatrix = np.zeros((3, 3))
 print("3x3 matrix zeros:\n", d3zerosMatrix, "\n")
 
+# 3x3 Array with zeros only
+d3zerosMatrix = np.zeros((3, 3))
+print("3x3 matrix zeros:\n", d3zerosMatrix, "\n")
+
 # 5x5 Array gauss distributed values
 gauss = np.random.normal(size=(5, 5))
 print("Gaus:\n", gauss, "\n")
