@@ -36,6 +36,7 @@ print("R={}, G={}, B={}".format(R, G, B))`
 `
 
 Obraz jest zapisywany jako tablica danych, więc rozmiary wycinku muszą być zdefiniowane na podstawie danych z tablicy 
+
 ![cropped_image](Output/cropped-image.jpg)
 
 # 
@@ -79,6 +80,7 @@ rotated = cv2.warpAffine(image, M, (w, h))
 `
 
 Obraz jest obracany domyślnie wobec jego środka. Nie musimy, więc deklarować dodatkowych operacji obliczeniowych
+
 ![imutils_rotated_image](Output/imutils_rotated-image.jpg)
 # 
 ## Rotacja obrazu przy użyciu imutils bound
@@ -87,6 +89,7 @@ Obraz jest obracany domyślnie wobec jego środka. Nie musimy, więc deklarować
 `
 
 Rotacja obrazu jest wykonywana wraz z poprawnym jego skalowaniem
+
 ![bound_rotated_image](Output/bound_rotated-image.jpg)
 
 
@@ -104,6 +107,7 @@ Rotacja obrazu jest wykonywana wraz z poprawnym jego skalowaniem
 output = image.copy()
 cv2.rectangle(output, (2200, 1400), (2800, 2100), (0, 0, 255), 10)
 `
+
 Operacja nadpisuje dane obrazu, dlatego pracujemy na jego kopii
 
 ![rectangle_image](Output/rectangle-image.jpg)
@@ -122,6 +126,7 @@ cv2.circle(output, (2500, 1750), 300, (255, 0, 0), 10)
 output = image.copy()
 cv2.line(output, (2000, 2150), (3000, 2500), (0, 0, 255), 10)
 `
+
 ![line](Output/line-image.jpg)
 
 #
@@ -131,6 +136,7 @@ output = image.copy()
 cv2.putText(output, "Some friends having fun", (int(w/4), int(h/4)),
 	cv2.FONT_HERSHEY_SIMPLEX, 7, (0, 0, 0), 15)
 `
+
 ![text](Output/text-image.jpg)
 
 #
@@ -138,6 +144,7 @@ cv2.putText(output, "Some friends having fun", (int(w/4), int(h/4)),
 `
 gray = cv2.cvtColor(jordanXoffwhite, cv2.COLOR_BGR2GRAY)
 `
+
 Do kolejnych zadań wykorzystuję inny obraz niż do poprzednich
 
 ## Oryginał:
@@ -151,7 +158,9 @@ Do kolejnych zadań wykorzystuję inny obraz niż do poprzednich
 `
 edged = cv2.Canny(gray, 30, 150)
 `
+
 Metodę Canny() stosujemy do wykrycia krawędzi. Metoda oblicza gradient dla punktów. Wynik jest porównywany z podanym argumentem progu krawędzi. Jeżeli wynik jest większy niż próg punkt zostanie uznany za krawędź.
+
 ![edge](Output/edged.jpg)
 
 #
@@ -161,12 +170,14 @@ thresh = cv2.threshold(gray, 225, 255, cv2.THRESH_BINARY_INV)[1]
 `
 
 Threshold zamienia nasze punkty na kolor biały lub czarny zależnie od progu.
+
 ![thresh](Output/thresh.jpg)
 
 #
 ## Znalezienie oraz oznaczenie kontur
 
 Znalezienie kontur:
+
 `
 cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 cnts = imutils.grab_contours(cnts)
@@ -187,15 +198,17 @@ for c in cnts:
 mask = thresh.copy()
 mask = cv2.erode(mask, None, iterations=3)
 `
+
 ![mask](Output/mask.jpg)
 
 
 #
-## Dylacja obrazu
+## Dylatacja obrazu
 `
 mask = thresh.copy()
 mask = cv2.dilate(mask, None, iterations=10)
 `
+
 ![dilationMask](Output/dilationMask.jpg)
 
 #
@@ -205,5 +218,6 @@ mask = thresh.copy()
 output = cv2.bitwise_and(jordanXoffwhite, jordanXoffwhite, mask=mask)
 `
 
-Wersja finalna:
+Finalny obraz po nałożeniu maski:
+
 ![masking](Output/masking.jpg)
