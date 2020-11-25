@@ -1,0 +1,3 @@
+This is a file meant only to be read
+This is a new text line
+Hello how are you?
