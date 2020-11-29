@@ -8,13 +8,41 @@
 
 # Spis treści:
 * [JSON](#JSON)
+    * [Importy](#Importy-JSON:)
+    * [Utworzenie pliku o formacie JSON w pamięci ](#Utworzenie-pliku-o-formacie-JSON-w-pamięci)
+    * [Zapisanie pliku w formacie JSON przy wykorzystaniu metody dump()](#Zapisanie-pliku-w-formacie-JSON-przy-wykorzystaniu-metody-dump())
+    * [Przekonwertowanie obiektu JSON na obiekt typu Python native str](#Przekonwertowanie-obiektu-JSON-na-obiekt-typu-Python-native-str)
+    * [Specyfikacja stylu wcinania](#Specyfikacja-stylu-wcinania)
+    * [Zakodowanie oraz odkodowanie obiektu typu JSON](#Zakodowanie-oraz-odkodowanie-obiektu-typu-JSON)
+    * [Deserializacja](#Deserializacja)
+    * [Deserializacja obiektu typu String](#Deserializacja-obiektu-typu-String)
+    * [Utworzenie zapytania JSON oraz deserializacja wyniku zapytania](#Utworzenie-zapytania-JSON-oraz-deserializacja-wyniku-zapytania)
+    * [Znalezienie użytkownika który utworzył najdłuższy post](#Znalezienie-użytkownika-który-utworzył-najdłuższy-post)
+    * [Odfiltrowanie najdłuższego postu pięciu użytkowników z najdłuższymi postami](#Odfiltrowanie-najdłuższego-postu-pięciu-użytkowników-z-najdłuższymi-postami)
+    * [Zakodowanie oraz odkodowanie obiektów niestandardowych](#Zakodowanie-oraz-odkodowanie-obiektów-niestandardowych)
+    * [Poprawne zakodowanie złożonych niestandardowych obiektów za pomocą metody](#Poprawne-zakodowanie-złożonych-niestandardowych-obiektów-za-pomocą-metody)
+    * [Zakodowanie przy pomocy nadpisania metody default() obiektu JSONEncoder](#Zakodowanie-przy-pomocy-nadpisania-metody-default()-obiektu-JSONEncoder)
+    * [Odkodowanie niestandardowego obiektu](#Odkodowanie-niestandardowego-obiektu)
+    * [Weryfikacja klucza](#Weryfikacja-klucza)
+    
 * [CSV](#CSV)
-
+    * [Importy CSV](#Importy-CSV:)
+    * [Wczytanie pliku CSV](#Wczytanie pliku CSV)
+    * [Wczytanie pliku CSV do słownika](#Wczytanie pliku CSV do słownika)
+    * [Utworzenie/Zapisanie pliku CSV](#Utworzenie/Zapisanie pliku CSV)
+    * [Utworzenie/Zapisanie pliku CSV ze słownika wraz z przykładowymi danymi](#Utworzenie/Zapisanie pliku CSV ze słownika wraz z przykładowymi danymi)
+    * [Parsowanie skomplikowanych danych pliku CSV przy użyciu biblioteki Pandas](#Parsowanie skomplikowanych danych pliku CSV przy użyciu biblioteki Pandas)
+    * [Rodzaje danych](#Rodzaje danych)
+    * [Zmiana kolumny index tablicy DataFrame](#Zmiana kolumny index tablicy DataFrame)
+    * [Naprawa typu kolumny Birthday](#Naprawa typu kolumny Birthday)
+    * [Deklaracja nazw kolumn oraz zmiana typu danej przy wczytaniu pliki CSV](#Deklaracja nazw kolumn oraz zmiana typu danej przy wczytaniu pliki CSV)
+    * [Zapisanie / Utworzenie pliku CSV przy wykorzystaniu biblioteki Pandas](#Zapisanie/Utworzenie pliku CSV przy wykorzystaniu biblioteki Pandas)
+    
 # JSON
 #### Aby zobaczyć kod źródłowy kliknij [tutaj](./Lab8_json.ipynb)
 
 
-### Importy:
+### Importy JSON:
 ```
 import json
 import requests
@@ -221,21 +249,146 @@ with open("json_files/complex_data.json") as complex_data:
     z=json.loads(data, object_hook=decode_complex)
 
 ```
-#CSV
+# CSV
+#### Aby zobaczyć kod źródłowy kliknij [tutaj](./Lab8_csv.ipynb)
 
-####
+### Importy CSV:
 ```
+import csv
+import pandas
+```
+### Wczytanie pliku CSV
+
+Otworzenie oraz proste zapisanie pliku CSV do pamięci
+
+[Plik dostępny tutaj](./csv_files/lorem_ipsum.txt)
 
 ```
-###
-```
+with open('csv_files/lorem_ipsum.txt') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    line_count = 0
 
 ```
-###
+Metoda wypisująca kolumny oraz wiersze oraz zliczająca wszystkie wiersze
 ```
+    for row in csv_reader:
+        if line_count == 0:
+            print(f'Column names are {", ".join(row)}')
+            line_count += 1
+        else:
+            print(f'\t{row[0]} is a Latin word {row[1]} is really important, '
+                  f'and means a lot {row[2]}.{row[3]} was generated. '
+                  f'{row[4]}, I really have no idea what it means')
+            line_count += 1
+    print(f'Processed {line_count} lines.')
 
 ```
-###
+### Wczytanie pliku CSV do słownika
+Metoda różni się tylko wywołaniem oraz odwoływaniem się do wierszy poprzez nazwy kolumn
+
+[Plik dostępny tutaj](./csv_files/lorem_ipsum.txt)
+
+```
+with open('csv_files/lorem_ipsum.txt') as csv_file:
+    csv_reader = csv.DictReader(csv_file)
+    line_count = 0
+    for row in csv_reader:
+        if line_count == 0:
+            print(f'Column names are {", ".join(row)}')
+            line_count += 1
+        else:
+            print(f'\t{row["First"]} is a Latin word {row["Second"]} is really important, '
+                  f'and means a lot {row["Third"]}.{row["Fourth"]} was generated. '
+                  f'{row["Fifth"]}, I really have no idea what it means')
+            line_count += 1
+    print(f'Processed {line_count} lines.')
+
+```
+### Utworzenie/Zapisanie pliku CSV
+
+[Plik dostępny tutaj](./csv_files/public_opinion.csv)
+
+```
+with open('csv_files/public_opinion.csv', mode='w') as public_opinion_file:
+    public_opinion_writer = csv.writer(public_opinion_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    public_opinion_writer.writerow(['Person', 'Job', 'Month'])
+    public_opinion_writer.writerow(['Max Musterman', 'Consultant', 'January'])
+
 ```
 
+### Utworzenie/Zapisanie pliku CSV ze słownika wraz z przykładowymi danymi
+
+[Plik dostępny tutaj](./csv_files/public_opinion2.csv)
+
+```
+with open('csv_files/public_opinion2.csv', mode='w') as csv_file:
+    fieldnames = ['person_name', 'job', 'employment_month']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+    writer.writeheader()
+    writer.writerow({'person_name': 'Max Musterman', 'job': 'Consultant', 'employment_month': 'January'})
+    writer.writerow({'person_name': 'Pawel Kowalski', 'job': 'Nurse', 'employment_month': 'February'})
+
+```
+
+### Parsowanie skomplikowanych danych pliku CSV przy użyciu biblioteki Pandas
+
+[Plik dostępny tutaj](./csv_files/random_csv_data.csv)
+
+```
+df = pandas.read_csv("csv_files/random_csv_data.csv")
+```
+
+### Rodzaje danych
+
+Pola "Birthday" i "Salary" nie powinny być typu String prawda?
+Wartość dftypes wypisaje typ String jako "Object"
+```
+print(df.dtypes)
+
+```
+
+### Zmiana kolumny index tablicy DataFrame
+
+[Plik dostępny tutaj](./csv_files/random_csv_data.csv)
+
+```
+df = pandas.read_csv("csv_files/random_csv_data.csv",index_col="Full name")
+
+```
+
+
+### Naprawa typu kolumny Birthday
+
+Zmuszamy bibliotekę pandas do sparsowania kolumny "Birthday" przy pomocy "parse_date"
+
+[Plik dostępny tutaj](./csv_files/random_csv_data.csv)
+
+```
+df = pandas.read_csv("csv_files/random_csv_data.csv",index_col="Full name", parse_dates=['Birthday'])
+```
+
+
+### Deklaracja nazw kolumn oraz zmiana typu danej przy wczytaniu pliki CSV
+
+[Plik dostępny tutaj](./csv_files/random_csv_data.csv)
+
+```
+df = pandas.read_csv('csv_files/random_csv_data.csv',
+            index_col='Full name',
+            parse_dates=['Birthday_changes'],
+            header=0,
+            names=['Full name', 'Age_changed','Birthday_changes', 'Email_changed','City_changed','Salary_changed'])
+```
+
+
+### Zapisanie/Utworzenie pliku CSV przy wykorzystaniu biblioteki Pandas
+
+Zapisujemy poprzednio wczytany i zmodyfikowany plik CSV jako zmienną df
+
+[Plik dostępny tutaj](./csv_files/random_csv_data_modified.csv)
+
+```
+df.to_csv('csv_files/random_csv_data_modified.csv')
 ```
