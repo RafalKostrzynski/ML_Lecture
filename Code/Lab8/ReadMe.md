@@ -4,7 +4,7 @@
 * https://realpython.com/python-json/
 * https://realpython.com/python-csv/
 
-#### Aby zobaczyć wyniki metod przejdź do poszczególnych plikó .ipynb (Referencja na początku każdego rozdziału)
+#### Aby zobaczyć wyniki metod przejdź do poszczególnych plików .ipynb (Referencja na początku każdego rozdziału)
 
 # Spis treści:
 * [JSON](#JSON)
