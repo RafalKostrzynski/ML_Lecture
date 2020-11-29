@@ -8,7 +8,7 @@
 
 # Spis treści:
 * [JSON](#JSON)
-    * [Importy](#Importy-JSON:)
+    * [Importy JSON](#Importy-JSON:)
     * [Utworzenie pliku o formacie JSON w pamięci ](#Utworzenie-pliku-o-formacie-JSON-w-pamięci)
     * [Zapisanie pliku w formacie JSON przy wykorzystaniu metody dump()](#Zapisanie-pliku-w-formacie-JSON-przy-wykorzystaniu-metody-dump())
     * [Przekonwertowanie obiektu JSON na obiekt typu Python native str](#Przekonwertowanie-obiektu-JSON-na-obiekt-typu-Python-native-str)
